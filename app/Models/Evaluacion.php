@@ -16,6 +16,11 @@ class Evaluacion extends Model
         'eva_intentos', 'eva_peso', 'eva_fecha_inicio', 'eva_fecha_fin', 'eva_estado'
     ];
 
+    protected $casts = [
+        'eva_fecha_inicio' => 'datetime',
+        'eva_fecha_fin' => 'datetime',
+    ];
+
     public function curso()
     {
         return $this->belongsTo(Curso::class);

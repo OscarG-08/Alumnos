@@ -32,30 +32,6 @@ class RendirEvaluacion extends Page
             ->inRandomOrder()
             ->take($this->evaluacion->eva_cantidad_preguntas)
             ->get();
-
-        // Inicializar respuestas vacías
-        foreach ($this->preguntas as $pregunta) {
-            $this->respuestas[$pregunta->id] = '';
-        }
-
-        $userEmail = Auth::user()->email;
-        $alumno = Alumno::where('alu_email', $userEmail)->first();
-
-        if ($alumno) {
-            $alumnoId = $alumno->id;
-        } else {
-            // Manejar el caso en que no se encuentra el alumno
-            abort(404, 'Alumno no encontrado');
-        }
-
-        foreach ($this->preguntas as $pregunta) {
-            AlumnoEvaluacionPregunta::create([
-                'alumno_id' => $alumnoId,
-                'evaluacion_id' => $this->evaluacion->id,
-                'pregunta_id' => $pregunta->id,
-                // ale_respuesta y ale_es_correcto se llenarán más tarde
-            ]);
-        }
     }
 
     public function guardarRespuestas()
@@ -70,6 +46,17 @@ class RendirEvaluacion extends Page
             // Recorrer las preguntas y guardar las respuestas
             foreach ($this->preguntas as $pregunta) {
                 // Guardar la respuesta escrita, si existe
+                // if (isset($this->respuestas[$pregunta->id])) {
+                //     AlumnoEvaluacionPregunta::create(
+                //         [
+                //             'alumno_id' => $alumno->id,
+                //             'evaluacion_id' => $this->evaluacion->id,
+                //             'pregunta_id' => $pregunta->id,
+                //             'ale_respuesta' => $this->respuestas[$pregunta->id
+                //         ]]
+                //     );
+                // }
+                //
                 if (isset($this->respuestas[$pregunta->id])) {
                     AlumnoEvaluacionPregunta::updateOrCreate(
                         [
@@ -80,6 +67,7 @@ class RendirEvaluacion extends Page
                         ['ale_respuesta' => $this->respuestas[$pregunta->id]]
                     );
                 }
+                
             }
 
             // Redirigir o mostrar un mensaje de éxito

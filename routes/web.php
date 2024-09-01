@@ -19,4 +19,4 @@ Route::post('/evaluacion/submit', [EvaluacionController::class, 'submit'])
     ->middleware('auth'); // Asegúrate de que el usuario esté autenticado
     
 Route::get('/alumno/rendir-evaluacion/{evaluacion}', RendirEvaluacion::class)
-    ->name('filament.pages.rendir-evaluacion');
+    ->name('filament.alumno.pages.rendir-evaluacion');

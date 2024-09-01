@@ -44,6 +44,6 @@ class Evaluaciones extends Page
 
     public function redirectToEvaluacion($evaluacionId)
     {
-        return redirect()->route('filament.pages.rendir-evaluacion', ['evaluacion' => $evaluacionId]);
+        return redirect()->route('filament.alumno.pages.rendir-evaluacion', ['evaluacion' => $evaluacionId]);
     }
 }
